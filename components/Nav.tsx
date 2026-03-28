@@ -32,7 +32,7 @@ export default function Nav() {
         <a href="#" className="flex items-center gap-2 group">
           <span className="text-[#f59e0b] text-lg font-bold tracking-tight">TTG</span>
           <span className="text-white/90 font-semibold text-sm tracking-wide hidden sm:block">
-            The Tilghman Group
+            The Tighlman Group
           </span>
         </a>
 

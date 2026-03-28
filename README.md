@@ -1,6 +1,6 @@
-# The Tilghman Group
+# The Tighlman Group
 
-Marketing and portfolio website for **The Tilghman Group LLC** — a software consultancy that builds custom tools for blue collar and service businesses.
+Marketing and portfolio website for **The Tighlman Group LLC** — a software consultancy that builds custom tools for blue collar and service businesses.
 
 **Stack:** Next.js 15 · Tailwind CSS · TypeScript  
 **Deploy:** Vercel

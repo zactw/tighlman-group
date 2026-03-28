@@ -25,7 +25,7 @@ export default function Contact() {
             <FadeIn delay={100}>
               <div className="space-y-4">
                 <a
-                  href="mailto:zachary.williams@tilghmangroup.com"
+                  href="mailto:zachary.williams@tighlmangroup.com"
                   className="flex items-center gap-4 group"
                 >
                   <div className="w-10 h-10 rounded-lg bg-[#f59e0b]/10 border border-[#f59e0b]/20 flex items-center justify-center text-[#f59e0b] group-hover:bg-[#f59e0b]/20 transition-colors">
@@ -35,7 +35,7 @@ export default function Contact() {
                     </svg>
                   </div>
                   <span className="text-white/60 group-hover:text-white transition-colors text-sm">
-                    zachary.williams@tilghmangroup.com
+                    zachary.williams@tighlmangroup.com
                   </span>
                 </a>
               </div>
@@ -52,7 +52,7 @@ export default function Contact() {
           {/* Right: Contact form */}
           <FadeIn delay={150}>
             <form
-              action="mailto:zachary.williams@tilghmangroup.com"
+              action="mailto:zachary.williams@tighlmangroup.com"
               method="get"
               encType="text/plain"
               className="space-y-5"

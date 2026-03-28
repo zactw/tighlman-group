@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="flex items-center gap-2">
           <span className="text-[#f59e0b] text-sm font-bold">TTG</span>
           <span className="text-white/30 text-sm">·</span>
-          <span className="text-white/30 text-sm">The Tilghman Group LLC</span>
+          <span className="text-white/30 text-sm">The Tighlman Group LLC</span>
         </div>
 
         <div className="flex items-center gap-6 text-white/25 text-sm">
@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
 
         <p className="text-white/20 text-sm">
-          © 2026 The Tilghman Group LLC · tilghman-group.com
+          © 2026 The Tighlman Group LLC · tighlman-group.com
         </p>
       </div>
     </footer>

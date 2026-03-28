@@ -22,7 +22,7 @@ export default function About() {
 
             <FadeIn delay={100}>
               <p className="text-white/60 text-lg leading-relaxed mb-6">
-                The Tilghman Group is a one-person operation with a network of trusted specialists for larger projects. That means you get a direct line to the person building your software — not a project manager, not a ticket system. Just someone who cares about solving your problem.
+                The Tighlman Group is a one-person operation with a network of trusted specialists for larger projects. That means you get a direct line to the person building your software — not a project manager, not a ticket system. Just someone who cares about solving your problem.
               </p>
             </FadeIn>
 
@@ -39,7 +39,7 @@ export default function About() {
                 </div>
                 <div>
                   <p className="text-white font-semibold">Zachary Williams</p>
-                  <p className="text-white/40 text-sm">Founder, The Tilghman Group</p>
+                  <p className="text-white/40 text-sm">Founder, The Tighlman Group</p>
                 </div>
               </div>
             </FadeIn>
