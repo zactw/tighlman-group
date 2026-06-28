@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://thetighlmangroup.com"),
-  title: "The Tighlman Group — Custom Software for Blue Collar Businesses",
+  title: "The Tighlman Group — Custom Software for Service Businesses",
   description: "We build custom software for businesses that need it to just work. No jargon, no bloat — just tools your team will actually use.",
   keywords: "custom software, scheduling software, field management, dispatch tools, small business software",
   openGraph: {

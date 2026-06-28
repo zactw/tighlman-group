@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const detailsRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -20,6 +20,10 @@ export default function Nav() {
 
   const bookACall =
     "mailto:zachary.williams@tighlmangroup.com?subject=Discovery%20call%20request";
+
+  const closeMenu = () => {
+    if (detailsRef.current) detailsRef.current.open = false;
+  };
 
   return (
     <header
@@ -57,46 +61,42 @@ export default function Nav() {
           </a>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-white/70 hover:text-white p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <div className="w-5 h-4 flex flex-col justify-between">
-            <span className={`block h-0.5 bg-current transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
-            <span className={`block h-0.5 bg-current transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 bg-current transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-          </div>
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 bg-[#0f0f0f] border-b border-white/5 ${
-          menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="px-6 py-5 flex flex-col gap-5">
-          {links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-white/80 hover:text-white text-lg font-medium transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            href={bookACall}
-            onClick={() => setMenuOpen(false)}
-            className="text-base bg-[#f59e0b] text-black font-semibold px-5 py-3.5 rounded-md text-center hover:bg-[#fbbf24] transition-colors"
+        {/* Mobile dropdown — uses <details> so the first tap works pre-hydration */}
+        <details ref={detailsRef} className="md:hidden nav-details">
+          <summary
+            className="list-none cursor-pointer text-white/80 hover:text-white p-2 select-none -mr-2"
+            aria-label="Toggle menu"
           >
-            Book a Call
-          </a>
-        </div>
-      </div>
+            <div className="w-6 h-5 flex flex-col justify-between nav-bars">
+              <span className="block h-0.5 bg-current rounded-full transition-all duration-300" />
+              <span className="block h-0.5 bg-current rounded-full transition-all duration-300" />
+              <span className="block h-0.5 bg-current rounded-full transition-all duration-300" />
+            </div>
+          </summary>
+
+          <div className="absolute left-0 right-0 top-full bg-[#0f0f0f] border-b border-white/5 shadow-xl shadow-black/40">
+            <div className="px-6 py-5 flex flex-col gap-5">
+              {links.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className="text-white/85 hover:text-white text-lg font-medium transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                href={bookACall}
+                onClick={closeMenu}
+                className="text-base bg-[#f59e0b] text-black font-semibold px-5 py-3.5 rounded-md text-center hover:bg-[#fbbf24] transition-colors"
+              >
+                Book a Call
+              </a>
+            </div>
+          </div>
+        </details>
+      </nav>
     </header>
   );
 }
