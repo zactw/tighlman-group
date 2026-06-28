@@ -6,15 +6,16 @@ import FadeIn from './FadeIn';
 const examples = [
   {
     label: 'MAX',
-    title: 'Service business software',
-    subtitle: 'For crews that need scheduling, jobs, and printable sheets.',
+    title: 'Operations platform',
+    subtitle: 'For managers running large crews and complex properties.',
     description:
-      'Custom scheduling software for service businesses. Crew-based daily calendar, printable job sheets, and property management — built simple for non-tech staff.',
+      'Built for service businesses with multiple crews, big property portfolios, and complicated jobs. Schedule and dispatch crews, track the full history of every property and job, and flag what needs attention first.',
     features: [
-      'Custom job scheduling & calendar',
-      'Crew-based daily job views',
-      'Property & client management',
-      'Printable job sheets',
+      'Multi-crew daily scheduling & dispatch',
+      'Property & client database with full job history',
+      'Manager and crew views for every job',
+      'Priority flagging & deadlines',
+      'Printable & exportable job sheets',
       'Up to 5 users included',
     ],
     build: 2000,
@@ -26,15 +27,15 @@ const examples = [
   },
   {
     label: 'Light',
-    title: 'Operations platform',
-    subtitle: 'For multi-role teams with complex jobs and audit needs.',
+    title: 'Crew scheduling & tasks',
+    subtitle: 'For smaller teams with lightweight jobs and task management.',
     description:
-      'End-to-end job scheduling and property management for teams with multiple roles. Role-based views, audit logs, and field-ready design.',
+      'A simple tool for small crews. Schedule the day, hand out task lists, mark jobs done. No bloat, no learning curve — your team can use it on day one.',
     features: [
-      'Role-based manager & crew views',
-      'Property & job history tracking',
-      'Activity log & audit feed',
-      'Priority flagging & deadlines',
+      'Daily crew schedule',
+      'Job task checklists',
+      'Simple property & client list',
+      'Printable daily sheets',
       'Up to 5 users included',
     ],
     build: 1400,
