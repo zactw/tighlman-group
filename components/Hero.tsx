@@ -44,7 +44,7 @@ export default function Hero() {
           {/* Eyebrow */}
           <div className="flex items-center gap-3 mb-8">
             <div className="h-px w-8 bg-[#f59e0b]" />
-            <span className="text-[#f59e0b] text-sm font-semibold tracking-widest uppercase">
+            <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
               Software Consultancy
             </span>
           </div>
@@ -57,33 +57,33 @@ export default function Hero() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg sm:text-xl md:text-2xl text-white/55 max-w-2xl leading-relaxed mb-12 font-light">
+          <p className="text-xl sm:text-2xl md:text-3xl text-white/70 max-w-2xl leading-relaxed mb-12">
             We build custom software for businesses that need it to just work.
             No jargon, no bloat —{" "}
-            <span className="text-white/80">just tools your team will actually use.</span>
+            <span className="text-white">just tools your team will actually use.</span>
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4">
             <a
-              href="#contact"
-              className="inline-flex items-center justify-center gap-2 bg-[#f59e0b] text-black font-bold px-8 py-4 rounded-lg text-base hover:bg-[#fbbf24] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20"
+              href="mailto:zachary.williams@tighlmangroup.com?subject=Discovery%20call%20request"
+              className="inline-flex items-center justify-center gap-2 bg-[#f59e0b] text-black font-bold px-8 py-5 rounded-lg text-lg hover:bg-[#fbbf24] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20"
             >
-              Start with a free discovery call
+              Book a discovery call
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
             <a
-              href="#work"
-              className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/70 font-medium px-8 py-4 rounded-lg text-base hover:border-white/30 hover:text-white transition-all duration-200"
+              href="#demo"
+              className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/80 font-medium px-8 py-5 rounded-lg text-lg hover:border-white/30 hover:text-white transition-all duration-200"
             >
               See our work
             </a>
           </div>
 
           {/* Trust strip */}
-          <div className="mt-16 pt-8 border-t border-white/5 flex flex-wrap gap-8 text-white/30 text-sm">
+          <div className="mt-16 pt-8 border-t border-white/5 flex flex-wrap gap-x-8 gap-y-3 text-white/50 text-base">
             <span>Scheduling tools</span>
             <span className="text-white/10">·</span>
             <span>Field management</span>

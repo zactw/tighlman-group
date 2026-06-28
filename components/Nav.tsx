@@ -13,11 +13,13 @@ export default function Nav() {
   }, []);
 
   const links = [
-    { label: "Work", href: "#work" },
-    { label: "Services", href: "#services" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Contact", href: "#contact" },
+    { label: "In Action", href: "/#demo" },
+    { label: "Services", href: "/#services" },
+    { label: "Pricing", href: "/#pricing" },
   ];
+
+  const bookACall =
+    "mailto:zachary.williams@tighlmangroup.com?subject=Discovery%20call%20request";
 
   return (
     <header
@@ -27,11 +29,11 @@ export default function Nav() {
           : "bg-transparent"
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Wordmark */}
-        <a href="#" className="flex items-center gap-2 group">
-          <span className="text-[#f59e0b] text-lg font-bold tracking-tight">TTG</span>
-          <span className="text-white/90 font-semibold text-sm tracking-wide hidden sm:block">
+        <a href="/" className="flex items-center gap-2 group">
+          <span className="text-[#f59e0b] text-xl font-bold tracking-tight">TG</span>
+          <span className="text-white font-semibold text-base tracking-wide hidden sm:block">
             The Tighlman Group
           </span>
         </a>
@@ -42,16 +44,16 @@ export default function Nav() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-white/60 hover:text-white transition-colors duration-200 tracking-wide"
+              className="text-base text-white/75 hover:text-white transition-colors duration-200 tracking-wide font-medium"
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#contact"
-            className="text-sm bg-[#f59e0b] text-black font-semibold px-4 py-2 rounded-md hover:bg-[#fbbf24] transition-colors duration-200"
+            href={bookACall}
+            className="text-base bg-[#f59e0b] text-black font-semibold px-5 py-2.5 rounded-md hover:bg-[#fbbf24] transition-colors duration-200"
           >
-            Free Call
+            Book a Call
           </a>
         </div>
 
@@ -72,26 +74,26 @@ export default function Nav() {
       {/* Mobile Menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 bg-[#0f0f0f] border-b border-white/5 ${
-          menuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+          menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="px-6 py-4 flex flex-col gap-4">
+        <div className="px-6 py-5 flex flex-col gap-5">
           {links.map((link) => (
             <a
               key={link.label}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="text-white/70 hover:text-white text-base transition-colors"
+              className="text-white/80 hover:text-white text-lg font-medium transition-colors"
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#contact"
+            href={bookACall}
             onClick={() => setMenuOpen(false)}
-            className="text-sm bg-[#f59e0b] text-black font-semibold px-4 py-2.5 rounded-md text-center hover:bg-[#fbbf24] transition-colors"
+            className="text-base bg-[#f59e0b] text-black font-semibold px-5 py-3.5 rounded-md text-center hover:bg-[#fbbf24] transition-colors"
           >
-            Free Discovery Call
+            Book a Call
           </a>
         </div>
       </div>

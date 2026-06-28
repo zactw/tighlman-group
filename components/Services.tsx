@@ -60,29 +60,29 @@ export default function Services() {
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#f59e0b]" />
-              <span className="text-[#f59e0b] text-sm font-semibold tracking-widest uppercase">
+              <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                 Services
               </span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
               What we build.
             </h2>
-            <p className="text-white/50 text-lg max-w-xl">
+            <p className="text-white/70 text-xl max-w-2xl">
               Practical tools for businesses that run on people, not software subscriptions.
             </p>
           </div>
         </FadeIn>
 
         {/* Service cards — 2x2 grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 auto-rows-fr">
           {services.map((service, i) => (
-            <FadeIn key={service.title} delay={i * 100}>
-              <div className="group p-8 bg-[#111111] border border-white/[0.06] rounded-2xl hover:border-[#f59e0b]/20 hover:bg-[#131313] transition-all duration-300">
+            <FadeIn key={service.title} delay={i * 100} className="h-full">
+              <div className="group h-full p-8 bg-[#111111] border border-white/[0.06] rounded-2xl hover:border-[#f59e0b]/20 hover:bg-[#131313] transition-all duration-300">
                 <div className="text-[#f59e0b] mb-5 group-hover:scale-110 transition-transform duration-300 inline-block">
                   {service.icon}
                 </div>
-                <h3 className="text-lg font-bold text-white mb-3">{service.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{service.description}</p>
+                <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
+                <p className="text-white/65 text-base leading-relaxed">{service.description}</p>
               </div>
             </FadeIn>
           ))}

@@ -10,7 +10,7 @@ export default function About() {
             <FadeIn>
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px w-8 bg-[#f59e0b]" />
-                <span className="text-[#f59e0b] text-sm font-semibold tracking-widest uppercase">
+                <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                   About
                 </span>
               </div>
@@ -21,14 +21,20 @@ export default function About() {
             </FadeIn>
 
             <FadeIn delay={100}>
-              <p className="text-white/60 text-lg leading-relaxed mb-6">
+              <p className="text-white/75 text-xl leading-relaxed mb-6">
                 The Tighlman Group is a one-person operation with a network of trusted specialists for larger projects. That means you get a direct line to the person building your software — not a project manager, not a ticket system. Just someone who cares about solving your problem.
               </p>
             </FadeIn>
 
             <FadeIn delay={200}>
-              <p className="text-white/60 text-lg leading-relaxed mb-10">
-                We work with service businesses, contractors, and operators who know their trade but don&apos;t have time to become software experts. That&apos;s our job.
+              <p className="text-white/75 text-xl leading-relaxed mb-6">
+                We work with service companies across the Valley — including <span className="text-white font-semibold">Arizona Carpet Care</span> and <span className="text-white font-semibold">Swyft Restoration</span>. HVAC, plumbing, and roofing teams are onboarding now, with more in the pipeline.
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={250}>
+              <p className="text-white/75 text-xl leading-relaxed mb-10">
+                You know your trade. We&apos;ll handle the software.
               </p>
             </FadeIn>
 
@@ -38,8 +44,8 @@ export default function About() {
                   <span className="text-[#f59e0b] font-bold text-sm">ZW</span>
                 </div>
                 <div>
-                  <p className="text-white font-semibold">Zachary Williams</p>
-                  <p className="text-white/40 text-sm">Founder, The Tighlman Group</p>
+                  <p className="text-white font-semibold text-lg">Zachary Williams</p>
+                  <p className="text-white/50 text-base">Founder, The Tighlman Group</p>
                 </div>
               </div>
             </FadeIn>
@@ -61,21 +67,17 @@ export default function About() {
                   title: "Built for non-tech teams",
                   body: "Your crew shouldn't need a manual. We build software that makes sense on day one.",
                 },
-                {
-                  title: "You own everything",
-                  body: "Your code, your data, your server. We don't hold keys to your business.",
-                },
               ].map((item, i) => (
                 <div
                   key={item.title}
-                  className="p-5 bg-[#111111] border border-white/[0.06] rounded-xl hover:border-white/[0.1] transition-colors"
+                  className="p-6 bg-[#111111] border border-white/[0.06] rounded-xl hover:border-white/[0.1] transition-colors"
                   style={{ transitionDelay: `${i * 60}ms` }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full bg-[#f59e0b] mt-2" />
+                    <div className="shrink-0 w-2 h-2 rounded-full bg-[#f59e0b] mt-2.5" />
                     <div>
-                      <p className="text-white font-semibold text-sm mb-1">{item.title}</p>
-                      <p className="text-white/45 text-sm leading-relaxed">{item.body}</p>
+                      <p className="text-white font-semibold text-lg mb-1.5">{item.title}</p>
+                      <p className="text-white/60 text-base leading-relaxed">{item.body}</p>
                     </div>
                   </div>
                 </div>

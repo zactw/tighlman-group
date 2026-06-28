@@ -5,9 +5,9 @@ import FadeIn from './FadeIn';
 
 const examples = [
   {
-    label: 'Service Business',
-    title: 'Field Management Software',
-    subtitle: 'Like our Arizona Carpet Care scheduler',
+    label: 'MAX',
+    title: 'Service business software',
+    subtitle: 'For crews that need scheduling, jobs, and printable sheets.',
     description:
       'Custom scheduling software for service businesses. Crew-based daily calendar, printable job sheets, and property management — built simple for non-tech staff.',
     features: [
@@ -22,14 +22,14 @@ const examples = [
     annual: 1000,
     perUserMonthly: 10,
     perUserAnnual: 100,
-    featured: false,
+    featured: true,
   },
   {
-    label: 'Operations Platform',
-    title: 'Restoration & Construction FMS',
-    subtitle: 'Like our Swyft Restoration scheduler',
+    label: 'Light',
+    title: 'Operations platform',
+    subtitle: 'For multi-role teams with complex jobs and audit needs.',
     description:
-      'End-to-end job scheduling and property management for restoration or construction companies. Role-based views, audit logs, and field-ready design.',
+      'End-to-end job scheduling and property management for teams with multiple roles. Role-based views, audit logs, and field-ready design.',
     features: [
       'Role-based manager & crew views',
       'Property & job history tracking',
@@ -42,7 +42,7 @@ const examples = [
     annual: 800,
     perUserMonthly: 10,
     perUserAnnual: 100,
-    featured: true,
+    featured: false,
   },
 ];
 
@@ -58,14 +58,14 @@ export default function Pricing() {
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#f59e0b]" />
-              <span className="text-[#f59e0b] text-sm font-semibold tracking-widest uppercase">
+              <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                 Pricing
               </span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
               Transparent. Simple.
             </h2>
-            <p className="text-white/50 text-lg max-w-xl">
+            <p className="text-white/70 text-xl max-w-2xl">
               No retainers, no surprises. Real prices from real projects we&apos;ve shipped.
             </p>
           </div>
@@ -77,7 +77,7 @@ export default function Pricing() {
             <div className="flex items-center gap-1 bg-[#111111] border border-white/[0.08] rounded-xl p-1">
               <button
                 onClick={() => setBilling('monthly')}
-                className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                className={`px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 ${
                   billing === 'monthly'
                     ? 'bg-[#f59e0b] text-black shadow-md'
                     : 'text-white/50 hover:text-white'
@@ -87,7 +87,7 @@ export default function Pricing() {
               </button>
               <button
                 onClick={() => setBilling('annual')}
-                className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                className={`px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 ${
                   billing === 'annual'
                     ? 'bg-[#f59e0b] text-black shadow-md'
                     : 'text-white/50 hover:text-white'
@@ -106,14 +106,14 @@ export default function Pricing() {
           <FadeIn delay={80}>
             <div className="relative flex flex-col h-full bg-[#111111] border border-white/[0.06] hover:border-white/[0.12] rounded-2xl p-8 transition-all duration-300">
               <div className="mb-8">
-                <p className="text-xs text-white/40 font-semibold tracking-widest uppercase mb-3">
+                <p className="text-sm text-white/50 font-semibold tracking-widest uppercase mb-3">
                   Discovery
                 </p>
                 <div className="mb-1">
-                  <span className="text-3xl font-black text-white">Free</span>
+                  <span className="text-4xl font-black text-white">Free</span>
                 </div>
-                <p className="text-xs text-white/30 mb-4">No credit card. No commitment.</p>
-                <p className="text-white/60 text-sm leading-relaxed">
+                <p className="text-sm text-white/40 mb-4">No credit card. No commitment.</p>
+                <p className="text-white/70 text-base leading-relaxed">
                   A no-pressure conversation to understand your problem and see if we&apos;re the right fit.
                 </p>
               </div>
@@ -121,7 +121,7 @@ export default function Pricing() {
               <div className="h-px bg-white/[0.06] mb-6" />
 
               <div className="flex-1">
-                <p className="text-xs text-white/30 font-semibold uppercase tracking-wider mb-4">
+                <p className="text-sm text-white/50 font-semibold uppercase tracking-wider mb-4">
                   What&apos;s included
                 </p>
                 <ul className="space-y-3">
@@ -131,8 +131,8 @@ export default function Pricing() {
                     'Rough scope estimate',
                     'Honest recommendation',
                   ].map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-white/60">
-                      <svg className="shrink-0 mt-0.5 text-[#f59e0b]" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <li key={item} className="flex items-start gap-3 text-base text-white/75">
+                      <svg className="shrink-0 mt-1 text-[#f59e0b]" width="16" height="16" viewBox="0 0 14 14" fill="none">
                         <path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       {item}
@@ -144,7 +144,7 @@ export default function Pricing() {
               <div className="mt-8">
                 <a
                   href="#contact"
-                  className="block text-center py-3.5 rounded-lg font-semibold text-sm border border-white/15 text-white/70 hover:border-white/30 hover:text-white transition-all duration-200"
+                  className="block text-center py-4 rounded-lg font-semibold text-base border border-white/15 text-white/80 hover:border-white/30 hover:text-white transition-all duration-200"
                 >
                   Book a Call
                 </a>
@@ -168,54 +168,54 @@ export default function Pricing() {
                   }`}
                 >
                   {ex.featured && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                      <span className="bg-[#f59e0b] text-black text-xs font-bold px-3 py-1 rounded-full tracking-wide uppercase whitespace-nowrap">
-                        Sample Project
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                      <span className="bg-[#f59e0b] text-black text-sm font-bold px-4 py-1.5 rounded-full tracking-wide uppercase whitespace-nowrap">
+                        Most Popular
                       </span>
                     </div>
                   )}
 
                   <div className="mb-8">
-                    <p className="text-xs text-white/40 font-semibold tracking-widest uppercase mb-3">
+                    <p className="text-sm text-white/50 font-semibold tracking-widest uppercase mb-3">
                       {ex.label}
                     </p>
-                    <h3 className="text-lg font-bold text-white mb-1">{ex.title}</h3>
-                    <p className="text-xs text-white/30 italic mb-4">{ex.subtitle}</p>
+                    <h3 className="text-xl font-bold text-white mb-1">{ex.title}</h3>
+                    <p className="text-sm text-white/40 italic mb-4">{ex.subtitle}</p>
 
                     {/* Build price */}
-                    <div className="mb-3 p-3 bg-white/[0.03] rounded-xl border border-white/[0.05]">
-                      <p className="text-xs text-white/30 uppercase tracking-wider mb-1">One-time build</p>
-                      <span className="text-2xl font-black text-white">
+                    <div className="mb-3 p-4 bg-white/[0.03] rounded-xl border border-white/[0.05]">
+                      <p className="text-sm text-white/40 uppercase tracking-wider mb-1">One-time build</p>
+                      <span className="text-3xl font-black text-white">
                         ${ex.build.toLocaleString()}
                       </span>
                     </div>
 
                     {/* Recurring */}
                     <div>
-                      <p className="text-xs text-white/30 uppercase tracking-wider mb-1">
+                      <p className="text-sm text-white/40 uppercase tracking-wider mb-1">
                         {billing === 'monthly' ? 'Monthly' : 'Annual'} maintenance
                       </p>
                       <div className="flex items-baseline gap-1">
-                        <span className={`text-3xl font-black ${ex.featured ? 'text-[#f59e0b]' : 'text-white'}`}>
+                        <span className={`text-4xl font-black ${ex.featured ? 'text-[#f59e0b]' : 'text-white'}`}>
                           ${recurringPrice.toLocaleString()}
                         </span>
-                        <span className="text-white/40 text-sm font-medium">{recurringLabel}</span>
+                        <span className="text-white/50 text-base font-medium">{recurringLabel}</span>
                       </div>
                     </div>
 
-                    <p className="text-white/50 text-sm leading-relaxed mt-3">{ex.description}</p>
+                    <p className="text-white/65 text-base leading-relaxed mt-3">{ex.description}</p>
                   </div>
 
                   <div className="h-px bg-white/[0.06] mb-6" />
 
                   <div className="flex-1">
-                    <p className="text-xs text-white/30 font-semibold uppercase tracking-wider mb-4">
+                    <p className="text-sm text-white/50 font-semibold uppercase tracking-wider mb-4">
                       What&apos;s included
                     </p>
                     <ul className="space-y-3">
                       {ex.features.map((item) => (
-                        <li key={item} className="flex items-start gap-3 text-sm text-white/60">
-                          <svg className="shrink-0 mt-0.5 text-[#f59e0b]" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <li key={item} className="flex items-start gap-3 text-base text-white/75">
+                          <svg className="shrink-0 mt-1 text-[#f59e0b]" width="16" height="16" viewBox="0 0 14 14" fill="none">
                             <path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                           {item}
@@ -223,7 +223,7 @@ export default function Pricing() {
                       ))}
                     </ul>
 
-                    <p className="mt-4 text-xs text-white/25 border-t border-white/[0.05] pt-4">
+                    <p className="mt-4 text-sm text-white/40 border-t border-white/[0.05] pt-4">
                       Additional users: ${perUserRate}/user{billing === 'monthly' ? '/mo' : '/yr'}
                     </p>
                   </div>
@@ -231,10 +231,10 @@ export default function Pricing() {
                   <div className="mt-8">
                     <a
                       href="#contact"
-                      className={`block text-center py-3.5 rounded-lg font-semibold text-sm transition-all duration-200 ${
+                      className={`block text-center py-4 rounded-lg font-semibold text-base transition-all duration-200 ${
                         ex.featured
                           ? 'bg-[#f59e0b] text-black hover:bg-[#fbbf24] shadow-lg shadow-amber-500/20'
-                          : 'border border-white/15 text-white/70 hover:border-white/30 hover:text-white'
+                          : 'border border-white/15 text-white/80 hover:border-white/30 hover:text-white'
                       }`}
                     >
                       Get a Quote
@@ -248,13 +248,13 @@ export default function Pricing() {
 
         {/* Footer note */}
         <FadeIn delay={450}>
-          <div className="mt-10 text-center space-y-2">
-            <p className="text-white/25 text-sm">
-              Out-of-scope work billed at <span className="text-white/40">$100/hr</span>.
-              Prices above reflect real projects — your build may vary based on scope.
-            </p>
-            <p className="text-white/20 text-xs">
+          <div className="mt-10 text-center space-y-3 max-w-3xl mx-auto">
+            <p className="text-white/40 text-base">
+              Out-of-scope work billed at <span className="text-white/60">$100/hr</span>.
               Hosting, bug fixes, minor updates, and priority support included in maintenance.
+            </p>
+            <p className="text-white/30 text-sm">
+              All prices, plans, features, and discounts shown are estimates for illustrative purposes only, do not constitute an offer, and are subject to change at any time without notice at our sole discretion. Final pricing and terms will be set out in a written engagement agreement.
             </p>
           </div>
         </FadeIn>

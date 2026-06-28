@@ -374,14 +374,14 @@ export default function AppShowcase() {
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#f59e0b]" />
-              <span className="text-[#f59e0b] text-sm font-semibold tracking-widest uppercase">
+              <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                 Live Preview
               </span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
               See it in action.
             </h2>
-            <p className="text-white/50 text-lg max-w-xl">
+            <p className="text-white/70 text-xl max-w-2xl">
               Click through real screens from software we&apos;ve built. This is what your team would actually use.
             </p>
           </div>
@@ -392,23 +392,23 @@ export default function AppShowcase() {
           <div className="flex gap-2 mb-8">
             <button
               onClick={() => setActiveApp('acc')}
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={`px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 ${
                 activeApp === 'acc'
                   ? 'bg-[#f59e0b] text-black'
                   : 'bg-[#111111] text-white/50 border border-white/[0.08] hover:text-white'
               }`}
             >
-              🧹 Arizona Carpet Care
+              MAX
             </button>
             <button
               onClick={() => setActiveApp('swyft')}
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={`px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 ${
                 activeApp === 'swyft'
                   ? 'bg-[#f59e0b] text-black'
                   : 'bg-[#111111] text-white/50 border border-white/[0.08] hover:text-white'
               }`}
             >
-              🔧 Swyft Restoration
+              Light
             </button>
           </div>
         </FadeIn>
@@ -427,10 +427,10 @@ export default function AppShowcase() {
                       if (activeApp === 'acc') setAccScreen(key as ACCScreen);
                       else setSwyftScreen(key as SwyftScreen);
                     }}
-                    className={`px-4 py-2 text-xs font-semibold rounded-t-lg transition-all border-b-2 ${
+                    className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-all border-b-2 ${
                       isActive
                         ? 'text-[#f59e0b] border-[#f59e0b] bg-white/[0.04]'
-                        : 'text-white/30 border-transparent hover:text-white/60'
+                        : 'text-white/50 border-transparent hover:text-white/80'
                     }`}
                   >
                     {label}
@@ -439,7 +439,7 @@ export default function AppShowcase() {
               })}
 
               {/* Click hint */}
-              <span className="ml-auto text-[10px] text-white/20 pr-1 pb-2">
+              <span className="ml-auto text-xs text-white/40 pr-1 pb-2 hidden sm:inline">
                 Click job cards to explore →
               </span>
             </div>
@@ -453,7 +453,7 @@ export default function AppShowcase() {
                     <ACCJobDetail job={accJob} onBack={() => setAccScreen('calendar')} />
                   )}
                   {accScreen === 'detail' && !accJob && (
-                    <div className="text-center py-12 text-white/30 text-sm">
+                    <div className="text-center py-12 text-white/50 text-base">
                       Click a job on the Calendar tab to view its details.
                     </div>
                   )}
@@ -467,7 +467,7 @@ export default function AppShowcase() {
                     <SwyftJobDetail job={swyftJob} onBack={() => setSwyftScreen('schedule')} />
                   )}
                   {swyftScreen === 'detail' && !swyftJob && (
-                    <div className="text-center py-12 text-white/30 text-sm">
+                    <div className="text-center py-12 text-white/50 text-base">
                       Click a job on the Daily Schedule tab to view its details.
                     </div>
                   )}
@@ -481,7 +481,7 @@ export default function AppShowcase() {
 
         {/* CTA */}
         <FadeIn delay={200}>
-          <p className="text-center text-white/25 text-sm mt-8">
+          <p className="text-center text-white/55 text-lg mt-8">
             Want something like this for your business?{' '}
             <a href="#contact" className="text-[#f59e0b] hover:text-[#fbbf24] font-semibold">
               Let&apos;s talk →

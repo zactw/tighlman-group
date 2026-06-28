@@ -1,6 +1,5 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import Work from "@/components/Work";
 import AppShowcase from "@/components/AppShowcase";
 import Services from "@/components/Services";
 import HowItWorks from "@/components/HowItWorks";
@@ -14,7 +13,6 @@ export default function Home() {
     <main className="min-h-screen bg-[#0a0a0a]">
       <Nav />
       <Hero />
-      <Work />
       <AppShowcase />
       <Services />
       <HowItWorks />

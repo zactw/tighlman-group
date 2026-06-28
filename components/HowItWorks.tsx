@@ -15,9 +15,9 @@ const steps = [
   },
   {
     number: "03",
-    title: "You Own It",
+    title: "Launch & Support",
     description:
-      "It's yours. We hand over the keys. Optional maintenance plans available for updates, new features, and support.",
+      "We deploy your software, train your team, and stay on call. Optional maintenance plans cover hosting, updates, new features, and priority support.",
   },
 ];
 
@@ -30,14 +30,14 @@ export default function HowItWorks() {
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#f59e0b]" />
-              <span className="text-[#f59e0b] text-sm font-semibold tracking-widest uppercase">
+              <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                 Process
               </span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
               How it works.
             </h2>
-            <p className="text-white/50 text-lg max-w-xl">
+            <p className="text-white/70 text-xl max-w-2xl">
               Straightforward from first conversation to final delivery.
             </p>
           </div>
@@ -52,12 +52,12 @@ export default function HowItWorks() {
             <FadeIn key={step.number} delay={i * 150} className="flex-1">
               <div className="relative p-8 md:p-10">
                 {/* Step number bubble */}
-                <div className="relative z-10 inline-flex items-center justify-center w-14 h-14 rounded-full border-2 border-[#f59e0b]/30 bg-[#111111] mb-6">
-                  <span className="text-[#f59e0b] text-sm font-bold">{step.number}</span>
+                <div className="relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-full border-2 border-[#f59e0b]/30 bg-[#111111] mb-6">
+                  <span className="text-[#f59e0b] text-base font-bold">{step.number}</span>
                 </div>
 
-                <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
+                <h3 className="text-2xl font-bold text-white mb-3">{step.title}</h3>
+                <p className="text-white/65 text-lg leading-relaxed">{step.description}</p>
 
                 {/* Connector arrow (mobile) */}
                 {i < steps.length - 1 && (
