@@ -50,6 +50,12 @@ const examples = [
 export default function Pricing() {
   const [billing, setBilling] = useState<'monthly' | 'annual'>('monthly');
 
+  const annualDiscountPct = Math.floor(
+    Math.min(
+      ...examples.map((ex) => ((ex.monthly * 12 - ex.annual) / (ex.monthly * 12)) * 100)
+    ) / 5
+  ) * 5;
+
   return (
     <section id="pricing" className="py-28 px-6 bg-[#0d0d0d]">
       <div className="max-w-6xl mx-auto">
@@ -88,13 +94,22 @@ export default function Pricing() {
               </button>
               <button
                 onClick={() => setBilling('annual')}
-                className={`px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 ${
+                className={`relative px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 inline-flex items-center gap-2 ${
                   billing === 'annual'
                     ? 'bg-[#f59e0b] text-black shadow-md'
                     : 'text-white/50 hover:text-white'
                 }`}
               >
                 Annual
+                <span
+                  className={`text-xs font-bold px-2 py-0.5 rounded-full tracking-wide ${
+                    billing === 'annual'
+                      ? 'bg-black/15 text-black'
+                      : 'bg-[#f59e0b]/15 text-[#f59e0b]'
+                  }`}
+                >
+                  −{annualDiscountPct}%
+                </span>
               </button>
             </div>
           </div>
