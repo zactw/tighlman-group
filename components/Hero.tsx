@@ -8,7 +8,9 @@ export default function Hero() {
   useEffect(() => {
     const el = heroRef.current;
     if (!el) return;
-    // Parallax subtle effect on mouse move
+    // Parallax on mouse move — skip on touch devices to save CPU/battery
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
     const onMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
@@ -17,7 +19,7 @@ export default function Hero() {
         glow.style.transform = `translate(${x}px, ${y}px)`;
       }
     };
-    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMouseMove);
   }, []);
 
