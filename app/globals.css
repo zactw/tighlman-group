@@ -74,21 +74,49 @@ body {
   }
 }
 
-/* Mobile nav <details> — strip default disclosure marker, animate bars to X */
-.nav-details > summary {
-  list-style: none;
+/* Mobile nav — CSS-only checkbox-driven dropdown.
+   Works on first tap before React hydrates. */
+.mob-nav-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  margin: 0;
 }
-.nav-details > summary::-webkit-details-marker {
-  display: none;
+
+.mob-nav-panel {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+  /* Force GPU layer — iOS Safari paint-bug workaround */
+  transform: translateZ(0);
 }
-.nav-details[open] .nav-bars > span:nth-child(1) {
-  transform: translateY(0.45rem) rotate(45deg);
+
+.mob-nav-toggle:checked ~ .mob-nav-panel {
+  max-height: 30rem;
+  opacity: 1;
+  pointer-events: auto;
 }
-.nav-details[open] .nav-bars > span:nth-child(2) {
+
+.mob-nav-toggle:checked ~ nav .nav-bars > span:nth-child(1) {
+  transform: translateY(0.5rem) rotate(45deg);
+}
+.mob-nav-toggle:checked ~ nav .nav-bars > span:nth-child(2) {
   opacity: 0;
 }
-.nav-details[open] .nav-bars > span:nth-child(3) {
-  transform: translateY(-0.45rem) rotate(-45deg);
+.mob-nav-toggle:checked ~ nav .nav-bars > span:nth-child(3) {
+  transform: translateY(-0.5rem) rotate(-45deg);
+}
+
+/* Promote the fixed header onto its own compositor layer so iOS Safari
+   paints and hit-tests it correctly on first interaction. */
+header.fixed {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Dot grid pattern */
