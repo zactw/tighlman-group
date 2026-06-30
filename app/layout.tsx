@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+// No explicit weight = variable font (single file, all weights). Much smaller
+// over the wire than shipping 6 separate weight files.
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
   variable: "--font-inter",
 });
