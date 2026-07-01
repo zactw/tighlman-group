@@ -53,21 +53,21 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-28 px-6 bg-[#0d0d0d]">
+    <section id="services" className="py-14 md:py-24 lg:py-28 px-4 sm:px-6 bg-[#0d0d0d]">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <FadeIn>
-          <div className="mb-16">
+          <div className="mb-10 md:mb-16">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#f59e0b]" />
               <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                 Services
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
               What we build.
             </h2>
-            <p className="text-white/70 text-xl max-w-2xl">
+            <p className="text-white/70 text-lg md:text-xl max-w-2xl">
               Practical tools for businesses that run on people, not software subscriptions.
             </p>
           </div>

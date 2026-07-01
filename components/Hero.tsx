@@ -41,7 +41,7 @@ export default function Hero() {
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-16">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-12 sm:pt-24 sm:pb-16">
         <div className="max-w-4xl">
           {/* Eyebrow */}
           <div className="flex items-center gap-3 mb-8">
@@ -52,14 +52,14 @@ export default function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] tracking-tight mb-8">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] tracking-tight mb-6 sm:mb-8">
             Software
             <br />
             <span className="text-[#f59e0b]">that works.</span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl sm:text-2xl md:text-3xl text-white/70 max-w-2xl leading-relaxed mb-12">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/70 max-w-2xl leading-relaxed mb-8 sm:mb-12">
             We build custom software for businesses that need it to just work.
             No jargon, no bloat —{" "}
             <span className="text-white">just tools your team will actually use.</span>
@@ -69,7 +69,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4">
             <a
               href="mailto:zachary.williams@tighlmangroup.com?subject=Discovery%20call%20request"
-              className="inline-flex items-center justify-center gap-2 bg-[#f59e0b] text-black font-bold px-8 py-5 rounded-lg text-lg hover:bg-[#fbbf24] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20"
+              className="inline-flex items-center justify-center gap-2 bg-[#f59e0b] text-black font-bold px-6 sm:px-8 py-4 sm:py-5 rounded-lg text-base sm:text-lg hover:bg-[#fbbf24] transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20"
             >
               Book a discovery call
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -78,14 +78,14 @@ export default function Hero() {
             </a>
             <a
               href="#demo"
-              className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/80 font-medium px-8 py-5 rounded-lg text-lg hover:border-white/30 hover:text-white transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 border border-white/15 text-white/80 font-medium px-6 sm:px-8 py-4 sm:py-5 rounded-lg text-base sm:text-lg hover:border-white/30 hover:text-white transition-all duration-200"
             >
               See our work
             </a>
           </div>
 
           {/* Trust strip */}
-          <div className="mt-16 pt-8 border-t border-white/5 flex flex-wrap gap-x-8 gap-y-3 text-white/50 text-base">
+          <div className="mt-10 sm:mt-16 pt-6 sm:pt-8 border-t border-white/5 flex flex-wrap gap-x-6 sm:gap-x-8 gap-y-2 sm:gap-y-3 text-white/50 text-sm sm:text-base">
             <span>Scheduling tools</span>
             <span className="text-white/10">·</span>
             <span>Field management</span>

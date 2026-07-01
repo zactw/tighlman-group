@@ -2,7 +2,7 @@ import FadeIn from "./FadeIn";
 
 export default function About() {
   return (
-    <section className="py-28 px-6">
+    <section className="py-14 md:py-24 lg:py-28 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left: Text */}
@@ -14,14 +14,14 @@ export default function About() {
                   About
                 </span>
               </div>
-              <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-8">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-6 md:mb-8">
                 A direct line.{" "}
                 <span className="text-white/40">No middlemen.</span>
               </h2>
             </FadeIn>
 
             <FadeIn delay={100}>
-              <p className="text-white/75 text-xl leading-relaxed mb-6">
+              <p className="text-white/75 text-lg md:text-xl leading-relaxed mb-5">
                 The Tighlman Group is a one-person operation with a network of trusted specialists for larger projects. That means you get a direct line to the person building your software — not a project manager, not a ticket system. Just someone who cares about solving your problem.
               </p>
             </FadeIn>

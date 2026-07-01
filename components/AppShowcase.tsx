@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import FadeIn from './FadeIn';
 
 // ─── Dummy data ────────────────────────────────────────────────────────────────
@@ -20,12 +20,38 @@ const SWYFT_JOBS = [
   { id: 3, property: 'Chandler Crossings', address: '1100 S Price Rd, Chandler', unit: '312', type: 'Fire Damage Cleanup', deadline: 'Jul 5', tasks: ['Debris removal', 'Soot cleaning', 'Deodorization', 'Board-up windows'], notes: 'Access through south entrance only', urgent: false },
 ];
 
+// ─── Tour steps ────────────────────────────────────────────────────────────────
+
+type AppTab = 'acc' | 'swyft';
+type ACCScreen = 'calendar' | 'detail' | 'print';
+type SwyftScreen = 'schedule' | 'detail' | 'history';
+
+interface TourStep {
+  app: AppTab;
+  accScreen: ACCScreen;
+  accJobId: number | null;
+  swyftScreen: SwyftScreen;
+  swyftJobId: number | null;
+  hint: string;
+}
+
+const TOUR_STEPS: TourStep[] = [
+  { app: 'acc', accScreen: 'calendar', accJobId: null, swyftScreen: 'schedule', swyftJobId: null, hint: 'MAX — your full crew schedule. Every team member, every time slot at a glance.' },
+  { app: 'acc', accScreen: 'detail', accJobId: 2, swyftScreen: 'schedule', swyftJobId: null, hint: 'Tap any job to see crew assignment, status, notes, and property contacts.' },
+  { app: 'acc', accScreen: 'print', accJobId: null, swyftScreen: 'schedule', swyftJobId: null, hint: 'One tap to print a clean daily route sheet for any crew member.' },
+  { app: 'swyft', accScreen: 'calendar', accJobId: null, swyftScreen: 'schedule', swyftJobId: null, hint: 'Light tier — simple job cards for smaller teams. Clean, fast, no learning curve.' },
+  { app: 'swyft', accScreen: 'calendar', accJobId: null, swyftScreen: 'detail', swyftJobId: 1, hint: 'Task checklist, deadlines, special notes — everything your tech needs on-site.' },
+  { app: 'swyft', accScreen: 'calendar', accJobId: null, swyftScreen: 'history', swyftJobId: null, hint: 'Full property history — every job, every tech, every date. Always searchable.' },
+];
+
+const TOUR_STEP_MS = 2800;
+
 // ─── Status helpers ────────────────────────────────────────────────────────────
 
 const ACC_STATUS: Record<string, { dot: string; text: string; bg: string; border: string }> = {
-  scheduled:   { dot: 'bg-blue-400',   text: 'text-blue-800',   bg: 'bg-blue-50',   border: 'border-blue-200' },
-  'in-progress':{ dot: 'bg-amber-400', text: 'text-amber-800',  bg: 'bg-amber-50',  border: 'border-amber-200' },
-  completed:   { dot: 'bg-green-400',  text: 'text-green-800',  bg: 'bg-green-50',  border: 'border-green-200' },
+  scheduled:    { dot: 'bg-blue-400',  text: 'text-blue-800',  bg: 'bg-blue-50',  border: 'border-blue-200' },
+  'in-progress':{ dot: 'bg-amber-400', text: 'text-amber-800', bg: 'bg-amber-50', border: 'border-amber-200' },
+  completed:    { dot: 'bg-green-400', text: 'text-green-800', bg: 'bg-green-50', border: 'border-green-200' },
 };
 
 const CREWS = ['Elijah', 'Aaron', 'Gabe', 'Brandon'];
@@ -35,10 +61,9 @@ const CREW_COLORS: Record<string, string> = {
 
 // ─── ACC Screens ───────────────────────────────────────────────────────────────
 
-function ACCCalendar({ onSelectJob }: { onSelectJob: (job: typeof ACC_JOBS[0]) => void }) {
+function ACCCalendar({ onSelectJob, pulseJobId }: { onSelectJob: (job: typeof ACC_JOBS[0]) => void; pulseJobId?: number | null }) {
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm text-xs font-sans">
-      {/* Top bar */}
       <div className="bg-white border-b border-gray-200 px-3 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button className="p-1 rounded hover:bg-gray-100 text-gray-400">‹</button>
@@ -51,8 +76,6 @@ function ACCCalendar({ onSelectJob }: { onSelectJob: (job: typeof ACC_JOBS[0]) =
           <button className="flex items-center gap-1 px-2 py-1 rounded bg-blue-600 text-white text-[10px] font-medium">+ Add Job</button>
         </div>
       </div>
-
-      {/* Grid */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse" style={{ minWidth: 520 }}>
           <thead>
@@ -69,19 +92,20 @@ function ACCCalendar({ onSelectJob }: { onSelectJob: (job: typeof ACC_JOBS[0]) =
             </tr>
           </thead>
           <tbody>
-            {['8:00 AM','9:00 AM','10:00 AM','11:00 AM'].map((time, rowIdx) => (
+            {['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM'].map((time, rowIdx) => (
               <tr key={time} className={rowIdx % 2 === 0 ? 'bg-amber-50/30' : 'bg-white'} style={{ height: 52 }}>
                 <td className="w-12 border-r border-gray-200 text-right pr-2 pt-1 align-top text-[9px] text-gray-400 font-medium">{time}</td>
                 {CREWS.map(crew => {
                   const job = ACC_JOBS.find(j => j.crew === crew && j.time.startsWith(time));
+                  const isPulsing = pulseJobId === job?.id;
                   return (
                     <td key={crew} className="border-r border-gray-100 last:border-0 p-0.5 align-top">
                       {job && (
                         <button
                           onClick={() => onSelectJob(job)}
-                          className={`w-full text-left rounded p-1 border-l-2 transition-all hover:brightness-95 ${
+                          className={`relative w-full text-left rounded p-1 border-l-2 transition-all hover:brightness-95 ${
                             job.urgent ? 'bg-red-50 border-red-500' : 'bg-white border-gray-300'
-                          }`}
+                          } ${isPulsing ? 'ring-2 ring-offset-1 ring-amber-400 animate-pulse' : ''}`}
                           style={{ borderLeftColor: CREW_COLORS[crew] }}
                         >
                           <div className={`font-semibold leading-tight truncate text-[10px] ${job.urgent ? 'text-red-700' : 'text-gray-800'}`}>
@@ -115,12 +139,8 @@ function ACCJobDetail({ job, onBack }: { job: typeof ACC_JOBS[0]; onBack: () => 
           <button onClick={onBack} className="text-gray-400 hover:text-gray-600 text-base leading-none">✕</button>
         </div>
         <div className="flex items-center gap-2 mt-2 flex-wrap">
-          <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${colors.bg} ${colors.text} ${colors.border}`}>
-            {job.status}
-          </span>
-          {job.urgent && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 border border-red-300">⚑ Urgent</span>
-          )}
+          <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${colors.bg} ${colors.text} ${colors.border}`}>{job.status}</span>
+          {job.urgent && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 border border-red-300">⚑ Urgent</span>}
           <span className="text-[11px] text-gray-500">{job.time}</span>
         </div>
       </div>
@@ -191,10 +211,9 @@ function ACCPrintPreview() {
 
 // ─── Swyft Screens ─────────────────────────────────────────────────────────────
 
-function SwyftSchedule({ onSelectJob }: { onSelectJob: (job: typeof SWYFT_JOBS[0]) => void }) {
+function SwyftSchedule({ onSelectJob, pulseJobId }: { onSelectJob: (job: typeof SWYFT_JOBS[0]) => void; pulseJobId?: number | null }) {
   return (
     <div className="bg-gray-100 rounded-xl overflow-hidden border border-gray-200 shadow-sm text-xs font-sans">
-      {/* Top bar */}
       <div className="bg-white border-b border-gray-200 px-3 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button className="p-1 rounded hover:bg-gray-100 text-gray-400">‹</button>
@@ -208,46 +227,47 @@ function SwyftSchedule({ onSelectJob }: { onSelectJob: (job: typeof SWYFT_JOBS[0
         </div>
       </div>
       <div className="p-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {SWYFT_JOBS.map((job, i) => (
-          <button
-            key={job.id}
-            onClick={() => onSelectJob(job)}
-            className={`text-left bg-white rounded-xl border-2 p-3 hover:shadow-md transition-all ${
-              job.urgent ? 'border-red-400' : 'border-gray-200'
-            }`}
-          >
-            <div className="flex items-start justify-between mb-1.5">
-              <div>
-                <div className="text-[9px] text-gray-400 font-medium">Job {i + 1}</div>
-                <div className={`font-bold text-[11px] leading-tight ${job.urgent ? 'text-red-800' : 'text-gray-800'}`}>
-                  {job.urgent && '⚑ '}{job.property}
-                </div>
-                <div className="text-[9px] text-gray-400">Unit {job.unit}</div>
-              </div>
-              {job.deadline && (
-                <div className="text-right">
-                  <div className="text-[9px] text-gray-400">Deadline</div>
-                  <div className="text-[10px] font-semibold text-gray-700">{job.deadline}</div>
-                </div>
-              )}
-            </div>
-            <div className="text-[10px] text-orange-700 font-semibold">{job.type}</div>
-            <div className="text-[9px] text-gray-500 mt-1 truncate">{job.address}</div>
-            {job.tasks.length > 0 && (
-              <div className="mt-2 space-y-0.5">
-                {job.tasks.slice(0, 2).map(t => (
-                  <div key={t} className="flex items-center gap-1 text-[9px] text-gray-500">
-                    <span className="w-2.5 h-2.5 border border-gray-400 rounded-sm inline-block flex-shrink-0" />
-                    {t}
+        {SWYFT_JOBS.map((job, i) => {
+          const isPulsing = pulseJobId === job.id;
+          return (
+            <button
+              key={job.id}
+              onClick={() => onSelectJob(job)}
+              className={`text-left bg-white rounded-xl border-2 p-3 hover:shadow-md transition-all ${
+                job.urgent ? 'border-red-400' : 'border-gray-200'
+              } ${isPulsing ? 'ring-2 ring-offset-1 ring-amber-400 animate-pulse' : ''}`}
+            >
+              <div className="flex items-start justify-between mb-1.5">
+                <div>
+                  <div className="text-[9px] text-gray-400 font-medium">Job {i + 1}</div>
+                  <div className={`font-bold text-[11px] leading-tight ${job.urgent ? 'text-red-800' : 'text-gray-800'}`}>
+                    {job.urgent && '⚑ '}{job.property}
                   </div>
-                ))}
-                {job.tasks.length > 2 && (
-                  <div className="text-[9px] text-gray-400">+{job.tasks.length - 2} more tasks</div>
+                  <div className="text-[9px] text-gray-400">Unit {job.unit}</div>
+                </div>
+                {job.deadline && (
+                  <div className="text-right">
+                    <div className="text-[9px] text-gray-400">Deadline</div>
+                    <div className="text-[10px] font-semibold text-gray-700">{job.deadline}</div>
+                  </div>
                 )}
               </div>
-            )}
-          </button>
-        ))}
+              <div className="text-[10px] text-orange-700 font-semibold">{job.type}</div>
+              <div className="text-[9px] text-gray-500 mt-1 truncate">{job.address}</div>
+              {job.tasks.length > 0 && (
+                <div className="mt-2 space-y-0.5">
+                  {job.tasks.slice(0, 2).map(t => (
+                    <div key={t} className="flex items-center gap-1 text-[9px] text-gray-500">
+                      <span className="w-2.5 h-2.5 border border-gray-400 rounded-sm inline-block flex-shrink-0" />
+                      {t}
+                    </div>
+                  ))}
+                  {job.tasks.length > 2 && <div className="text-[9px] text-gray-400">+{job.tasks.length - 2} more tasks</div>}
+                </div>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -303,8 +323,8 @@ function SwyftJobDetail({ job, onBack }: { job: typeof SWYFT_JOBS[0]; onBack: ()
 function SwyftHistory() {
   const entries = [
     { date: 'Jun 18', type: 'Water Damage Mitigation', status: 'Completed', tech: 'Marcus R.' },
-    { date: 'May 2', type: 'Carpet Cleaning', status: 'Completed', tech: 'Devon H.' },
-    { date: 'Mar 15', type: 'Mold Inspection', status: 'Completed', tech: 'Marcus R.' },
+    { date: 'May 2',  type: 'Carpet Cleaning',          status: 'Completed', tech: 'Devon H.' },
+    { date: 'Mar 15', type: 'Mold Inspection',           status: 'Completed', tech: 'Marcus R.' },
   ];
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm text-xs font-sans max-w-md mx-auto">
@@ -332,10 +352,6 @@ function SwyftHistory() {
 
 // ─── Main component ─────────────────────────────────────────────────────────────
 
-type AppTab = 'acc' | 'swyft';
-type ACCScreen = 'calendar' | 'detail' | 'print';
-type SwyftScreen = 'schedule' | 'detail' | 'history';
-
 export default function AppShowcase() {
   const [activeApp, setActiveApp] = useState<AppTab>('acc');
   const [accScreen, setAccScreen] = useState<ACCScreen>('calendar');
@@ -343,56 +359,112 @@ export default function AppShowcase() {
   const [swyftScreen, setSwyftScreen] = useState<SwyftScreen>('schedule');
   const [swyftJob, setSwyftJob] = useState<typeof SWYFT_JOBS[0] | null>(null);
 
+  // Tour state
+  const [touring, setTouring] = useState(false);
+  const [tourIdx, setTourIdx] = useState(0);
+  const tourTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Which job card to pulse during tour (by id)
+  const [pulseAccJobId, setPulseAccJobId] = useState<number | null>(null);
+  const [pulseSwyftJobId, setPulseSwyftJobId] = useState<number | null>(null);
+
+  const applyStep = useCallback((step: TourStep) => {
+    setActiveApp(step.app);
+    setAccScreen(step.accScreen);
+    setAccJob(step.accJobId !== null ? ACC_JOBS.find(j => j.id === step.accJobId) ?? null : null);
+    setSwyftScreen(step.swyftScreen);
+    setSwyftJob(step.swyftJobId !== null ? SWYFT_JOBS.find(j => j.id === step.swyftJobId) ?? null : null);
+    // Pulse the job card being selected
+    setPulseAccJobId(step.accJobId ?? null);
+    setPulseSwyftJobId(step.swyftJobId ?? null);
+  }, []);
+
+  const stopTour = useCallback(() => {
+    if (tourTimer.current) clearTimeout(tourTimer.current);
+    setTouring(false);
+    setPulseAccJobId(null);
+    setPulseSwyftJobId(null);
+  }, []);
+
+  const startTour = useCallback(() => {
+    setTourIdx(0);
+    setTouring(true);
+  }, []);
+
+  // Drive the tour forward automatically
+  useEffect(() => {
+    if (!touring) return;
+    applyStep(TOUR_STEPS[tourIdx]);
+    tourTimer.current = setTimeout(() => {
+      const next = tourIdx + 1;
+      if (next >= TOUR_STEPS.length) {
+        stopTour();
+        // Reset to beginning
+        setActiveApp('acc');
+        setAccScreen('calendar');
+        setAccJob(null);
+        setSwyftScreen('schedule');
+        setSwyftJob(null);
+      } else {
+        setTourIdx(next);
+      }
+    }, TOUR_STEP_MS);
+    return () => { if (tourTimer.current) clearTimeout(tourTimer.current); };
+  }, [touring, tourIdx, applyStep, stopTour]);
+
+  // Current tour hint text
+  const tourHint = touring ? TOUR_STEPS[tourIdx]?.hint : null;
+
   const accScreens: { key: ACCScreen; label: string }[] = [
     { key: 'calendar', label: 'Calendar' },
-    { key: 'detail', label: 'Job Detail' },
-    { key: 'print', label: 'Print View' },
+    { key: 'detail',   label: 'Job Detail' },
+    { key: 'print',    label: 'Print View' },
   ];
-
   const swyftScreens: { key: SwyftScreen; label: string }[] = [
     { key: 'schedule', label: 'Daily Schedule' },
-    { key: 'detail', label: 'Job Detail' },
-    { key: 'history', label: 'Property History' },
+    { key: 'detail',   label: 'Job Detail' },
+    { key: 'history',  label: 'Property History' },
   ];
 
   const handleAccJob = (job: typeof ACC_JOBS[0]) => {
+    if (touring) stopTour();
     setAccJob(job);
     setAccScreen('detail');
   };
-
   const handleSwyftJob = (job: typeof SWYFT_JOBS[0]) => {
+    if (touring) stopTour();
     setSwyftJob(job);
     setSwyftScreen('detail');
   };
 
   return (
-    <section id="demo" className="py-28 px-6 bg-[#0a0a0a]">
+    <section id="demo" className="py-14 md:py-24 lg:py-28 px-4 sm:px-6 bg-[#0a0a0a]">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
         <FadeIn>
-          <div className="mb-12">
+          <div className="mb-8 md:mb-12">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#f59e0b]" />
               <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                 Live Preview
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
               See it in action.
             </h2>
-            <p className="text-white/70 text-xl max-w-2xl">
-              Click through real screens from software we&apos;ve built. This is what your team would actually use.
+            <p className="text-white/70 text-lg md:text-xl max-w-2xl">
+              Real screens from software we&apos;ve built. Tap around — or hit play for an auto-walkthrough.
             </p>
           </div>
         </FadeIn>
 
-        {/* App tabs */}
+        {/* App tabs + Play button */}
         <FadeIn delay={80}>
-          <div className="flex gap-2 mb-8">
+          <div className="flex items-center gap-2 mb-6 flex-wrap">
             <button
-              onClick={() => setActiveApp('acc')}
-              className={`px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 ${
+              onClick={() => { if (touring) stopTour(); setActiveApp('acc'); }}
+              className={`px-5 py-2.5 rounded-xl text-sm sm:text-base font-semibold transition-all duration-200 ${
                 activeApp === 'acc'
                   ? 'bg-[#f59e0b] text-black'
                   : 'bg-[#111111] text-white/50 border border-white/[0.08] hover:text-white'
@@ -401,8 +473,8 @@ export default function AppShowcase() {
               MAX
             </button>
             <button
-              onClick={() => setActiveApp('swyft')}
-              className={`px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 ${
+              onClick={() => { if (touring) stopTour(); setActiveApp('swyft'); }}
+              className={`px-5 py-2.5 rounded-xl text-sm sm:text-base font-semibold transition-all duration-200 ${
                 activeApp === 'swyft'
                   ? 'bg-[#f59e0b] text-black'
                   : 'bg-[#111111] text-white/50 border border-white/[0.08] hover:text-white'
@@ -410,24 +482,77 @@ export default function AppShowcase() {
             >
               Light
             </button>
+
+            {/* Divider */}
+            <div className="h-6 w-px bg-white/10 mx-1" />
+
+            {/* Play / Pause */}
+            <button
+              onClick={touring ? stopTour : startTour}
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm sm:text-base font-semibold transition-all duration-200 ${
+                touring
+                  ? 'bg-white/10 text-white border border-white/20 hover:bg-white/15'
+                  : 'bg-[#111111] text-[#f59e0b] border border-[#f59e0b]/30 hover:border-[#f59e0b]/60 hover:bg-[#f59e0b]/5'
+              }`}
+            >
+              {touring ? (
+                <>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                    <rect x="1" y="1" width="4" height="10" rx="1" />
+                    <rect x="7" y="1" width="4" height="10" rx="1" />
+                  </svg>
+                  Stop
+                </>
+              ) : (
+                <>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                    <path d="M2 1.5l9 4.5-9 4.5z" />
+                  </svg>
+                  Watch Demo
+                </>
+              )}
+            </button>
+
+            {/* Tour progress dots */}
+            {touring && (
+              <div className="flex items-center gap-1.5 ml-1">
+                {TOUR_STEPS.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`rounded-full transition-all duration-300 ${
+                      i === tourIdx ? 'w-4 h-1.5 bg-[#f59e0b]' : 'w-1.5 h-1.5 bg-white/20'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </FadeIn>
+
+        {/* Tour hint */}
+        {tourHint && (
+          <div className="mb-4 flex items-start gap-2 text-sm text-white/60 animate-fade-in">
+            <span className="text-[#f59e0b] mt-0.5 shrink-0">→</span>
+            <span>{tourHint}</span>
+          </div>
+        )}
 
         <FadeIn delay={120}>
           <div className="bg-[#111111] border border-white/[0.06] rounded-2xl overflow-hidden">
 
-            {/* Screen nav */}
-            <div className="flex items-center gap-0 border-b border-white/[0.06] px-4 pt-3">
+            {/* Screen nav — scrollable on mobile */}
+            <div className="flex items-center gap-0 border-b border-white/[0.06] overflow-x-auto px-4 pt-3 scrollbar-none">
               {(activeApp === 'acc' ? accScreens : swyftScreens).map(({ key, label }) => {
                 const isActive = activeApp === 'acc' ? accScreen === key : swyftScreen === key;
                 return (
                   <button
                     key={key}
                     onClick={() => {
+                      if (touring) stopTour();
                       if (activeApp === 'acc') setAccScreen(key as ACCScreen);
                       else setSwyftScreen(key as SwyftScreen);
                     }}
-                    className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-all border-b-2 ${
+                    className={`px-3 sm:px-4 py-2 text-sm font-semibold rounded-t-lg transition-all border-b-2 whitespace-nowrap ${
                       isActive
                         ? 'text-[#f59e0b] border-[#f59e0b] bg-white/[0.04]'
                         : 'text-white/50 border-transparent hover:text-white/80'
@@ -438,23 +563,24 @@ export default function AppShowcase() {
                 );
               })}
 
-              {/* Click hint */}
-              <span className="ml-auto text-xs text-white/40 pr-1 pb-2 hidden sm:inline">
-                Click job cards to explore →
+              <span className="ml-auto text-xs text-white/30 pr-1 pb-2 whitespace-nowrap hidden sm:inline shrink-0">
+                {touring ? 'Auto demo playing…' : 'Tap cards to explore →'}
               </span>
             </div>
 
             {/* Screen content */}
-            <div className="p-4 sm:p-6">
+            <div className="p-3 sm:p-5 md:p-6">
               {activeApp === 'acc' && (
                 <>
-                  {accScreen === 'calendar' && <ACCCalendar onSelectJob={handleAccJob} />}
+                  {accScreen === 'calendar' && (
+                    <ACCCalendar onSelectJob={handleAccJob} pulseJobId={pulseAccJobId} />
+                  )}
                   {accScreen === 'detail' && accJob && (
                     <ACCJobDetail job={accJob} onBack={() => setAccScreen('calendar')} />
                   )}
                   {accScreen === 'detail' && !accJob && (
-                    <div className="text-center py-12 text-white/50 text-base">
-                      Click a job on the Calendar tab to view its details.
+                    <div className="text-center py-10 text-white/50 text-base">
+                      Tap a job on the Calendar tab to view its details.
                     </div>
                   )}
                   {accScreen === 'print' && <ACCPrintPreview />}
@@ -462,13 +588,15 @@ export default function AppShowcase() {
               )}
               {activeApp === 'swyft' && (
                 <>
-                  {swyftScreen === 'schedule' && <SwyftSchedule onSelectJob={handleSwyftJob} />}
+                  {swyftScreen === 'schedule' && (
+                    <SwyftSchedule onSelectJob={handleSwyftJob} pulseJobId={pulseSwyftJobId} />
+                  )}
                   {swyftScreen === 'detail' && swyftJob && (
                     <SwyftJobDetail job={swyftJob} onBack={() => setSwyftScreen('schedule')} />
                   )}
                   {swyftScreen === 'detail' && !swyftJob && (
-                    <div className="text-center py-12 text-white/50 text-base">
-                      Click a job on the Daily Schedule tab to view its details.
+                    <div className="text-center py-10 text-white/50 text-base">
+                      Tap a job on the Daily Schedule tab to view its details.
                     </div>
                   )}
                   {swyftScreen === 'history' && <SwyftHistory />}
@@ -481,7 +609,7 @@ export default function AppShowcase() {
 
         {/* CTA */}
         <FadeIn delay={200}>
-          <p className="text-center text-white/55 text-lg mt-8">
+          <p className="text-center text-white/55 text-base md:text-lg mt-8">
             Want something like this for your business?{' '}
             <a href="#contact" className="text-[#f59e0b] hover:text-[#fbbf24] font-semibold">
               Let&apos;s talk →

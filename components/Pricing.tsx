@@ -57,22 +57,22 @@ export default function Pricing() {
   ) * 5;
 
   return (
-    <section id="pricing" className="py-28 px-6 bg-[#0d0d0d]">
+    <section id="pricing" className="py-14 md:py-24 lg:py-28 px-4 sm:px-6 bg-[#0d0d0d]">
       <div className="max-w-6xl mx-auto">
 
         {/* Section header */}
         <FadeIn>
-          <div className="mb-12">
+          <div className="mb-8 md:mb-12">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-8 bg-[#f59e0b]" />
               <span className="text-[#f59e0b] text-base font-semibold tracking-widest uppercase">
                 Pricing
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
               Transparent. Simple.
             </h2>
-            <p className="text-white/70 text-xl max-w-2xl">
+            <p className="text-white/70 text-lg md:text-xl max-w-2xl">
               No retainers, no surprises. Real prices from real projects we&apos;ve shipped.
             </p>
           </div>
